@@ -3,4 +3,60 @@
  */
 h1, h2 {
     font-family: 'Quicksand', sans-serif;
+
+    text-align: center;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.4rem, 3rem, 10dvh);
+
+    height: 100dvh;
+    padding: 0 clamp(0.4rem, 2rem, 10dvh);
+}
+
+.title img {
+    max-width: clamp(0.4rem, 8rem, 30dvw);
+    user-select: none;
+}
+
+h1, .title img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+h1 {
+    width: fit-content;
+    font-size: clamp(0.2rem, 4rem, 15dvw);
+    font-weight: 700;
+}
+
+h2 {
+    font-size: clamp(0.2rem, 3rem, 10dvw);
+    font-weight: 600;
+}
+
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100dvw;
+    height: 100dvh;
+
+    z-index: -1;
+
+    display: none;
+}
+
+.socials a {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.socials a:last-child {
+    margin-right: 0;
 }
