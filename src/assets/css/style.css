@@ -4,7 +4,23 @@
 :root {
     --background-color: #ECF0F1;
     --text-color: #2F3030;
+    --primary-color: #3598DB;
 }
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../fonts/Quicksand-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../fonts/Quicksand-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
 
 body {
     background-color: var(--background-color);
@@ -15,11 +31,10 @@ h1, h2 {
 
     text-align: center;
     color: var(--text-color);
-    text-shadow:
-        -0.1rem -0.1rem 0 var(--background-color),
-        0.1rem -0.1rem 0 var(--background-color),
-        -0.1rem 0.1rem 0 var(--background-color),
-        0.1rem 0.1rem 0 var(--background-color);
+    text-shadow: -0.1rem -0.1rem 0 var(--background-color),
+    0.1rem -0.1rem 0 var(--background-color),
+    -0.1rem 0.1rem 0 var(--background-color),
+    0.1rem 0.1rem 0 var(--background-color);
 }
 
 img {
@@ -66,6 +81,16 @@ h2 {
     margin-right: 0;
 }
 
+path {
+    fill: var(--text-color);
+
+    transition: fill 0.2s ease-in-out;
+}
+
+svg:hover path {
+    fill: var(--primary-color);
+}
+
 #background {
     position: fixed;
     top: 0;
@@ -78,7 +103,7 @@ h2 {
 }
 
 #background img:nth-child(1) {
-position: absolute;
+    position: absolute;
     bottom: 0;
     right: 0;
 
