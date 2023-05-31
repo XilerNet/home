@@ -23,17 +23,17 @@ const updateTheme = () => {
     const root = document.documentElement;
 
     if (theme === "dark") {
-        root.style.setProperty("--background-color", "#ECF0F1");
-        root.style.setProperty("--text-color", "#2F3030");
-        root.style.setProperty("--primary-color", "#3598DB");
-        $SUN.style.display = "none";
-        $MOON.style.display = "block";
-    } else {
         root.style.setProperty("--background-color", "#2F3030");
         root.style.setProperty("--text-color", "#ECF0F1");
         root.style.setProperty("--primary-color", "#3598DB");
         $SUN.style.display = "block";
         $MOON.style.display = "none";
+    } else {
+        root.style.setProperty("--background-color", "#ECF0F1");
+        root.style.setProperty("--text-color", "#2F3030");
+        root.style.setProperty("--primary-color", "#3598DB");
+        $SUN.style.display = "none";
+        $MOON.style.display = "block";
     }
 }
 
