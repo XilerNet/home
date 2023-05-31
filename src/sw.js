@@ -5,7 +5,7 @@ const CACHE_PREFIX = "static-cache";
 const CACHE_NAME = `${CACHE_PREFIX}-v${CACHE_VERSION}`;
 
 const FILES_TO_CACHE = [
-    "/",
+    // "/",
     "manifest.json",
     "assets/icons/favicon.ico",
     "assets/icons/favicon-16x16.png",
