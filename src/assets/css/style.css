@@ -24,6 +24,7 @@
 
 body {
     background-color: var(--background-color);
+    transition: background-color 0.2s ease-in-out;
 }
 
 h1, h2 {
@@ -35,6 +36,9 @@ h1, h2 {
     0.1rem -0.1rem 0 var(--background-color),
     -0.1rem 0.1rem 0 var(--background-color),
     0.1rem 0.1rem 0 var(--background-color);
+
+    transition: color 0.2s ease-in-out,
+    text-shadow 0.2s ease-in-out;
 }
 
 img {
@@ -125,7 +129,10 @@ svg:hover path {
     height: 3rem;
 
     z-index: 10;
+}
 
+#theme path {
+    display: none;
     fill: var(--text-color);
     transition: fill 0.2s ease-in-out;
 }

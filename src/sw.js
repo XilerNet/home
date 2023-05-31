@@ -5,7 +5,7 @@ const CACHE_PREFIX = "static-cache";
 const CACHE_NAME = `${CACHE_PREFIX}-v${CACHE_VERSION}`;
 
 const FILES_TO_CACHE = [
-    // "/",
+    "/",
     "manifest.json",
     "assets/icons/favicon.ico",
     "assets/icons/favicon-16x16.png",
@@ -17,7 +17,7 @@ const FILES_TO_CACHE = [
     "assets/icons/icon.svg",
 
     "assets/css/reset.css",
-    // "assets/css/style.css",
+    "assets/css/style.css",
 
     "assets/fonts/Quicksand-Bold.ttf",
     "assets/fonts/Quicksand-SemiBold.ttf",
