@@ -1,10 +1,29 @@
 /*
  * Copyright (c) 2023 Xiler
  */
+:root {
+    --background-color: #ECF0F1;
+    --text-color: #2F3030;
+}
+
+body {
+    background-color: var(--background-color);
+}
+
 h1, h2 {
     font-family: 'Quicksand', sans-serif;
 
     text-align: center;
+    color: var(--text-color);
+    text-shadow:
+        -0.1rem -0.1rem 0 var(--background-color),
+        0.1rem -0.1rem 0 var(--background-color),
+        -0.1rem 0.1rem 0 var(--background-color),
+        0.1rem 0.1rem 0 var(--background-color);
+}
+
+img {
+    user-select: none;
 }
 
 #content {
@@ -20,7 +39,6 @@ h1, h2 {
 
 .title img {
     max-width: clamp(0.4rem, 8rem, 30dvw);
-    user-select: none;
 }
 
 h1, .title img {
@@ -39,6 +57,15 @@ h2 {
     font-weight: 600;
 }
 
+.socials a {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.socials a:last-child {
+    margin-right: 0;
+}
+
 #background {
     position: fixed;
     top: 0;
@@ -48,15 +75,18 @@ h2 {
     height: 100dvh;
 
     z-index: -1;
-
-    display: none;
 }
 
-.socials a {
-    display: inline-block;
-    margin-right: 1rem;
+#background img:nth-child(1) {
+position: absolute;
+    bottom: 0;
+    right: 0;
+
+    transform: scaleX(-1) scaleY(-1);
 }
 
-.socials a:last-child {
-    margin-right: 0;
+@media screen and (max-width: 83rem) {
+    #background {
+        display: none;
+    }
 }
