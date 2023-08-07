@@ -1,0 +1,3 @@
+<p>
+    Processing the authentication request...
+</p>
