@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "qs": "^6.11.2",
+    "sass": "^1.66.1",
     "svelte-spa-router": "^3.3.0"
   }
 }

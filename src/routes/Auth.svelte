@@ -10,10 +10,11 @@
 
     async function handleRefreshToken() {
         if ('refresh' in parsedQueryString) {
-            token = parsedQueryString['refresh'];
+            token = parsedQueryString['refresh'] as string;
             let newToken = await api.refreshToken(token);
 
             localStorage.setItem(AUTH_TOKEN_LOCATION, newToken);
+            api.initSignedIn().then();
             await push('/')
         } else {
             window.location.href = AUTH_WEB_URL;

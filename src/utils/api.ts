@@ -1,8 +1,11 @@
 import type {ErrorResponse, MeResponse, RefreshTokenResponse} from "../types/api";
 import {AUTH_API_URL, AUTH_TOKEN_LOCATION} from "./constants";
+import {writable} from "svelte/store";
 
 
 class Api {
+    public isSignedIn = writable(false);
+
     async refreshToken(token: string): Promise<string> {
         const {token: newToken} = await this.request<RefreshTokenResponse>(AUTH_API_URL, "/refresh", "POST", null, {
             'Authorization': `Bearer ${token}`
@@ -19,9 +22,10 @@ class Api {
         return this.requestAuth<void>("/logout", "POST", true);
     }
 
-    async isSignedIn(): Promise<boolean> {
+    async initSignedIn(): Promise<boolean> {
         try {
             await this.me();
+            this.isSignedIn.set(true);
             return true;
         } catch (e) {
             return false;
@@ -49,14 +53,14 @@ class Api {
         }
 
         if (!(res.status >= 200 && res.status < 300)) {
-            throw new Error((json as ErrorResponse).message);
+            throw new Error((json! as ErrorResponse).message);
         }
 
-        return json as T;
+        return json! as T;
     }
 
     private async requestAuth<T>(path: string, method: string, bearer?: boolean, body?: any): Promise<T> {
-        const headers = bearer ? {
+        const headers: HeadersInit = bearer ? {
             'Authorization': `Bearer ${localStorage.getItem(AUTH_TOKEN_LOCATION)}`
         } : {};
 
