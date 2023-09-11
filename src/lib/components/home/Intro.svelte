@@ -30,6 +30,9 @@
             }
 
             handleDomainSuggestions();
+        } else {
+            domainSuggestions = [];
+            query = "";
         }
     }
 
@@ -71,7 +74,13 @@
         {#if domainSuggestions.length > 0}
             <ul class="results">
                 {#each domainSuggestions as domainSuggestion}
-                    <li> {domainSuggestion} </li>
+                    <li>
+                        <p class="name">{domainSuggestion}</p>
+                        <div>
+                            <p>0.0005 BTC</p>
+                            <button>Add to cart</button>
+                        </div>
+                    </li>
                 {/each}
             </ul>
         {/if}
@@ -131,6 +140,40 @@
       min-height: 3rem;
       max-height: 20dvh;
       overflow-y: scroll;
+
+      li {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr auto;
+        margin: 0.5rem 0;
+
+        border: 0.1rem solid #ECF0F1;
+        border-radius: 0.375rem;
+
+        padding: 0.5rem 0.25rem 0.5rem 1rem;
+
+        div {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          white-space: nowrap;
+          padding-left: 0.25rem;
+        }
+
+        p.name {
+          word-wrap: anywhere;
+        }
+
+        button {
+          border: none;
+          border-radius: 0.375rem;
+          background-color: $accent-color;
+          color: $text-on-accent-color;
+
+          padding: 0.5rem 1.125rem;
+        }
+      }
     }
 
     .guarantees {

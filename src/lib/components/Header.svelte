@@ -1,5 +1,6 @@
 <script lang="ts">
     import api from "../../utils/api";
+    import {link} from "svelte-spa-router";
     import {AUTH_WEB_URL} from "../../utils/constants";
 
     const logout = async () => {
@@ -20,15 +21,15 @@
 
 
 <header>
-    <div class="xiler">
+    <a class="xiler" href="/" use:link>
         <img src="/logo.svg" alt="logo">
-        <p>Xiler</p>
-    </div>
+        <p>Xiler <span>alpha</span></p>
+    </a>
 
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/" use:link>Home</a></li>
+            <li><a href="/docs" use:link>Documentation</a></li>
             <li><a href="https://dc.xiler.net" target="_blank">Support</a></li>
         </ul>
     </nav>
@@ -74,6 +75,8 @@
       width: fit-content;
       height: fit-content;
 
+      text-decoration: none;
+
       img, p {
         display: block;
       }
@@ -84,6 +87,8 @@
       }
 
       p {
+        position: relative;
+
         padding: 0;
         margin: 0;
 
@@ -92,6 +97,14 @@
         font-size: 1.563rem;
         font-weight: 700;
         font-family: 'Quicksand', sans-serif;
+
+        span {
+          position: absolute;
+          font-size: 0.7rem;
+
+          bottom: -50%;
+          right: -25%;
+        }
       }
     }
 
