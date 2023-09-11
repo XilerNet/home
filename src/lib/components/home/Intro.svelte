@@ -2,6 +2,8 @@
     import api from "../../../utils/api";
     import {push, querystring} from "svelte-spa-router";
     import {parse} from "qs";
+    import {addToBasket, basket, removeFromBasket} from "../../../stores/basket";
+    import {AUTH_WEB_URL} from "../../../utils/constants";
 
     let query = "";
     let lastQuery = "";
@@ -44,6 +46,11 @@
         push(`/?search=${query}`);
     }
 
+    const login = async () => {
+        window.location.href = AUTH_WEB_URL;
+    }
+
+    $: isSignedIn = api.isSignedIn;
     $: handleQuery($querystring)
 </script>
 
@@ -98,8 +105,26 @@
                         <p class="name">{domainSuggestion}</p>
                         <div>
                             <p>0.0005 BTC</p>
-                            <!-- TODO: Add domain to cart -->
-                            <button>Add to cart</button>
+                            <button
+                                    on:click={() => {
+                                        if ($basket.includes(getDomainName(domainSuggestion))) {
+                                           removeFromBasket(getDomainName(domainSuggestion));
+                                           return;
+                                        }
+                                        addToBasket(getDomainName(domainSuggestion))
+
+                                        if (!$isSignedIn) {
+                                            login();
+                                        }
+                                    }}
+                                    class:in-cart={$basket.includes(getDomainName(domainSuggestion))}
+                            >
+                                {#if $basket.includes(getDomainName(domainSuggestion))}
+                                    Remove from cart
+                                {:else}
+                                    Add to cart
+                                {/if}
+                            </button>
                         </div>
                     </li>
                 {/each}
@@ -199,6 +224,15 @@
 
           &:hover {
             background-color: $dark-accent-color;
+          }
+
+          &.in-cart {
+            color: #2F3030;
+            background-color: #BDC0C1;
+
+            &:hover {
+              background-color: #8E9091;
+            }
           }
         }
 

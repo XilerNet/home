@@ -2,6 +2,7 @@
     import api from "../../utils/api";
     import {link} from "svelte-spa-router";
     import {AUTH_WEB_URL} from "../../utils/constants";
+    import {basket} from "../../stores/basket";
 
     const logout = async () => {
         await api.logout();
@@ -15,9 +16,7 @@
     }
 
     $: isSignedIn = api.isSignedIn;
-
-    // TODO: Dynamic basket detection
-    let hasItemInBasket = false;
+    $: hasItemInBasket = $basket.length > 0;
 
     api.initSignedIn().then();
 </script>
@@ -211,6 +210,10 @@
 
         border-top: 0.063rem solid #2F3030;
 
+        li {
+          display: flex;
+          align-items: center;
+        }
 
         .basket {
           position: relative;
@@ -218,7 +221,7 @@
           &.full::after {
             content: "";
             position: absolute;
-            top: -0.575rem;
+            top: -0.05rem;
             right: -0.05rem;
             width: 0.6rem;
             height: 0.6rem;
