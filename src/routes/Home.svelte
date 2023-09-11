@@ -1,6 +1,9 @@
 <script lang="ts">
     import api from "../utils/api";
+    import Intro from "../lib/components/home/Intro.svelte";
 </script>
+
+<Intro />
 
 <pre style="text-align: left">
 {#await api.me()}Loading...

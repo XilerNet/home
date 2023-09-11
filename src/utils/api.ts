@@ -1,5 +1,5 @@
 import type {ErrorResponse, MeResponse, RefreshTokenResponse} from "../types/api";
-import {AUTH_API_URL, AUTH_TOKEN_LOCATION} from "./constants";
+import {AUTH_API_URL, AUTH_TOKEN_LOCATION, DOMAINS_API_URL} from "./constants";
 import {writable} from "svelte/store";
 
 
@@ -32,6 +32,10 @@ class Api {
         }
     }
 
+    async searchDomains(query: string): Promise<string[]> {
+        return this.requestDomains<string[]>(`/search?query=${query}`, "GET", false);
+    }
+
     private async request<T>(base_url: string, path: string, method: string, body?: any, headers?: HeadersInit): Promise<T> {
         const defaultHeaders = {
             'Content-Type': 'application/json'
@@ -59,12 +63,20 @@ class Api {
         return json! as T;
     }
 
-    private async requestAuth<T>(path: string, method: string, bearer?: boolean, body?: any): Promise<T> {
+    private async requestWithHeader<T>(url: string, path: string, method: string, bearer?: boolean, body?: any): Promise<T> {
         const headers: HeadersInit = bearer ? {
             'Authorization': `Bearer ${localStorage.getItem(AUTH_TOKEN_LOCATION)}`
         } : {};
 
-        return this.request<T>(AUTH_API_URL, path, method, body, headers);
+        return this.request<T>(url, path, method, body, headers);
+    }
+
+    private async requestAuth<T>(path: string, method: string, bearer?: boolean, body?: any): Promise<T> {
+        return this.requestWithHeader<T>(AUTH_API_URL, path, method, bearer, body);
+    }
+
+    private async requestDomains<T>(path: string, method: string, bearer?: boolean, body?: any): Promise<T> {
+        return this.requestWithHeader<T>(DOMAINS_API_URL, path, method, bearer, body);
     }
 }
 

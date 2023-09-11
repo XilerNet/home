@@ -4,8 +4,7 @@
     import api from "../utils/api";
     import {AUTH_TOKEN_LOCATION, AUTH_WEB_URL} from "../utils/constants";
 
-    const parsedQueryString = parse($querystring);
-
+    const parsedQueryString = $querystring ? parse($querystring) : {};
     let token = "none";
 
     async function handleRefreshToken() {
