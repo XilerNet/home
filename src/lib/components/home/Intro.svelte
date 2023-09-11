@@ -23,7 +23,9 @@
                     if (!isValidDomainSearch(query)) {
                         return;
                     }
-                    domainSuggestions = await api.searchDomains(query);
+                    let suggestions = await api.searchDomains(query);
+                    suggestions = suggestions.sort((a, b) => a.length - b.length);
+                    domainSuggestions = suggestions;
                 }
             }
 
@@ -39,18 +41,20 @@
 </script>
 
 
-<div>
-    <h3>Become a part of the future</h3>
+<div id="intro">
+    <div class="title">
+        <h3>Become a part of the future</h3>
+        <h1>Decentralize. Liberate. Search.</h1>
+    </div>
 
-    <h1>Decentralize. Liberate. Search.</h1>
-
-    <form on:submit|preventDefault={handleSubmit}>
-        <input placeholder="Find your .o domain here!" type="text" id="search" name="search" bind:value={query}
-               required
-               on:beforeinput={e => {
+    <div class="search-wrapper">
+        <form class="search" on:submit|preventDefault={handleSubmit}>
+            <input placeholder="Find your .o domain here!" type="text" id="search" name="search" bind:value={query}
+                   required
+                   on:beforeinput={e => {
                    lastQuery = e.currentTarget.value;
                }}
-               on:input={e => {
+                   on:input={e => {
                    if (e.currentTarget.value === "") {
                         return;
                    }
@@ -60,13 +64,125 @@
                        e.currentTarget.value = lastQuery;
                    }
                }}
-        >
-        <button type="submit">Search</button>
-    </form>
+            >
+            <button type="submit">Search</button>
+        </form>
 
-    <ul>
-        {#each domainSuggestions as domainSuggestion}
-            <li> {domainSuggestion} </li>
-        {/each}
+        {#if domainSuggestions.length > 0}
+            <ul class="results">
+                {#each domainSuggestions as domainSuggestion}
+                    <li> {domainSuggestion} </li>
+                {/each}
+            </ul>
+        {/if}
+    </div>
+
+    <ul class="guarantees">
+        <li>
+            <img src="/media/check.svg" alt="checkmark">
+            <p>Fully Secure</p>
+        </li>
+        <li>
+            <img src="/media/check.svg" alt="checkmark">
+            <p>24/7 Support</p>
+        </li>
+        <li>
+            <img src="/media/check.svg" alt="checkmark">
+            <p>Truly Decentralized</p>
+        </li>
     </ul>
 </div>
+
+<style lang="scss">
+  $text-on-accent-color: #fff;
+  $text-color: #000;
+  $accent-color: #3598DB;
+  $dark-accent-color: #2A7AAF;
+  $background-color: #081925;
+
+  #intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    height: calc(80dvh - 5.125rem);
+
+    .title {
+      text-align: center;
+
+      h3 {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: $accent-color;
+
+        padding: 0 0 0.75rem 0;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+    }
+
+    .results {
+      min-height: 3rem;
+      max-height: 20dvh;
+      overflow-y: scroll;
+    }
+
+    .guarantees {
+      display: flex;
+      gap: 2rem;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .search-wrapper {
+      width: 30rem;
+      max-width: 90dvw;
+
+      .search {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+
+        input {
+          font-size: 0.938rem;
+          font-weight: 500;
+
+          border: 0.063rem solid #ECF0F1;
+          border-right: none;
+          border-bottom-left-radius: 0.375rem;
+          border-top-left-radius: 0.375rem;
+
+          padding: 0.75rem 1rem;
+        }
+
+        button {
+          font-size: 0.938rem;
+          font-weight: 600;
+
+          background-color: $accent-color;
+          color: $text-on-accent-color;
+
+          border: none;
+          border-bottom-right-radius: 0.375rem;
+          border-top-right-radius: 0.375rem;
+
+          padding: 0.75rem 1.125rem;
+        }
+      }
+    }
+  }
+</style>
