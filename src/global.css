@@ -4,4 +4,6 @@
   height: 100dvh;
 
   font-family: "Inter", sans-serif;
+
+  overflow-x: hidden;
 }
