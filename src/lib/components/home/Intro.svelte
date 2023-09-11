@@ -57,16 +57,16 @@
     <div class="search-wrapper">
         <form class="search" on:submit|preventDefault={handleSubmit}>
             <input
-                placeholder="Find your .o domain here!"
-                type="text"
-                id="search"
-                name="search"
-                required
-                bind:value={query}
-                on:beforeinput={e => {
+                    placeholder="Find your .o domain here!"
+                    type="text"
+                    id="search"
+                    name="search"
+                    required
+                    bind:value={query}
+                    on:beforeinput={e => {
                    lastQuery = e.currentTarget.value;
                 }}
-                on:input={e => {
+                    on:input={e => {
                    domainSuggestions = [];
                    if (e.currentTarget.value === "") {
                         return;
@@ -195,6 +195,11 @@
           padding: 0.5rem 1.125rem;
 
           cursor: pointer;
+          transition: background-color 0.2s ease-in-out;
+
+          &:hover {
+            background-color: $dark-accent-color;
+          }
         }
 
         &.taken {
@@ -255,6 +260,13 @@
           border-top-right-radius: 0.375rem;
 
           padding: 0.75rem 1.125rem;
+
+          cursor: pointer;
+          transition: background-color 0.2s ease-in-out;
+
+          &:hover {
+            background-color: $dark-accent-color;
+          }
         }
       }
     }
