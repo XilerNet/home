@@ -46,6 +46,10 @@
         push(`/?search=${query}`);
     }
 
+    function clearUrl() {
+        push("/");
+    }
+
     const login = async () => {
         window.location.href = AUTH_WEB_URL;
     }
@@ -76,6 +80,7 @@
                     on:input={e => {
                    domainSuggestions = [];
                    if (e.currentTarget.value === "") {
+                       clearUrl();
                         return;
                    }
 

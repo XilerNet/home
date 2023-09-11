@@ -1,9 +1,11 @@
 <script lang="ts">
     import api from "../utils/api";
     import Intro from "../lib/components/home/Intro.svelte";
+    import Empower from "../lib/components/home/Empower.svelte";
 </script>
 
 <Intro />
+<Empower />
 
 <pre style="text-align: left">
 {#await api.me()}Loading...

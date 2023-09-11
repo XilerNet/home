@@ -5,6 +5,8 @@
 </script>
 
 <Header />
+<main>
 <Router {routes}/>
+</main>
 
 <style></style>
