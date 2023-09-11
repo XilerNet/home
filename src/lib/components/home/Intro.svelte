@@ -56,12 +56,18 @@
 
     <div class="search-wrapper">
         <form class="search" on:submit|preventDefault={handleSubmit}>
-            <input placeholder="Find your .o domain here!" type="text" id="search" name="search" bind:value={query}
-                   required
-                   on:beforeinput={e => {
+            <input
+                placeholder="Find your .o domain here!"
+                type="text"
+                id="search"
+                name="search"
+                required
+                bind:value={query}
+                on:beforeinput={e => {
                    lastQuery = e.currentTarget.value;
-               }}
-                   on:input={e => {
+                }}
+                on:input={e => {
+                   domainSuggestions = [];
                    if (e.currentTarget.value === "") {
                         return;
                    }
@@ -70,7 +76,7 @@
                    if (!isValidDomainSearch(e.currentTarget.value)) {
                        e.currentTarget.value = lastQuery;
                    }
-               }}
+                }}
             >
             <button type="submit">Search</button>
         </form>
