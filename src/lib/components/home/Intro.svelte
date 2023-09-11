@@ -8,6 +8,10 @@
     let domainSuggestions: string[] = [];
     const DOMAIN_SEARCH_REGEX = /^[a-z\d](?:[a-z\d-]{0,251}[a-z\d])?\.?o?$/;
 
+    function getDomainName(query: string) {
+        return query.endsWith(".o") ? query : query + ".o";
+    }
+
     function isValidDomainSearch(query: string) {
         return DOMAIN_SEARCH_REGEX.test(query);
     }
@@ -73,11 +77,22 @@
 
         {#if domainSuggestions.length > 0}
             <ul class="results">
+                {#if !domainSuggestions.includes(getDomainName(query))}
+                    <li class="taken">
+                        <p class="name">{getDomainName(query)}</p>
+                        <div>
+                            <p>taken</p>
+                        </div>
+                    </li>
+
+                {/if}
+
                 {#each domainSuggestions as domainSuggestion}
                     <li>
                         <p class="name">{domainSuggestion}</p>
                         <div>
                             <p>0.0005 BTC</p>
+                            <!-- TODO: Add domain to cart -->
                             <button>Add to cart</button>
                         </div>
                     </li>
@@ -172,6 +187,16 @@
           color: $text-on-accent-color;
 
           padding: 0.5rem 1.125rem;
+
+          cursor: pointer;
+        }
+
+        &.taken {
+          opacity: 0.6;
+
+          div p {
+            text-transform: uppercase;
+          }
         }
       }
     }
