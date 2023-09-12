@@ -139,15 +139,15 @@
 
     <ul class="guarantees">
         <li>
-            <img src="/media/check.svg" alt="checkmark">
+            <img src="/media/intro/check.svg" alt="checkmark">
             <p>Fully Secure</p>
         </li>
         <li>
-            <img src="/media/check.svg" alt="checkmark">
+            <img src="/media/intro/check.svg" alt="checkmark">
             <p>24/7 Support</p>
         </li>
         <li>
-            <img src="/media/check.svg" alt="checkmark">
+            <img src="/media/intro/check.svg" alt="checkmark">
             <p>Truly Decentralized</p>
         </li>
     </ul>

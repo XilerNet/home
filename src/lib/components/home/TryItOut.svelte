@@ -13,7 +13,7 @@
     </section>
 
 <!--    <section>-->
-<!--        <img src="/media/try-it-out/reverse-proxy.svg" alt="Accessable">-->
+<!--        <img src="/media/try-it-out/reverse-proxy.svg" alt="Accessible">-->
 <!--        <h5>Try our reverse proxy!</h5>-->
 <!--        <p>To enable universal access without requiring DNS settings changes, we've developed a proxy that acts as the-->
 <!--            website. Please note that we assume no responsibility for the displayed content.</p>-->
@@ -29,7 +29,7 @@
     justify-content: center;
     width: 90dvw;
     max-width: 65rem;
-    margin: 0 auto;
+    margin: 5rem auto;
     gap: 2rem 4rem;
     padding: 6rem 0;
 

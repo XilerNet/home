@@ -23,56 +23,57 @@
 
 
 <header>
-    <div class="default-menu">
-        <a class="xiler" href="/" use:link>
-            <img src="/logo.svg" alt="logo">
-            <p>Xiler <span>alpha</span></p>
-        </a>
+    <div class="contents">
+        <div class="default-menu">
+            <a class="xiler" href="/" use:link>
+                <img src="/logo.svg" alt="logo">
+                <p>Xiler <span>alpha</span></p>
+            </a>
 
-        <nav>
-            <ul>
-                <li><a href="/" use:link>Home</a></li>
-                <li><a href="/docs" use:link>Documentation</a></li>
-                <li><a href="https://dc.xiler.net" target="_blank">Support</a></li>
-            </ul>
-        </nav>
-
-        <div class="login">
-            {#if $isSignedIn}
-                <button class="logout" on:click={logout}>Logout</button>
-            {:else}
-                <button on:click={login}>Connect Wallet</button>
-            {/if}
-        </div>
-    </div>
-
-    {#if $isSignedIn}
-        <div class="menu-bar">
             <nav>
                 <ul>
-                    <li><a href="/me/domains" use:link>Domains</a></li>
-                    <li><a href="/me/wallets" use:link>Wallets</a></li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="/me/basket" use:link class="basket {hasItemInBasket ? 'full' : ''}">
-                            <img src="/media/cart.svg" alt="basket">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/me" use:link>
-                            <img src="/media/user.svg" alt="user">
-                        </a>
-                    </li>
+                    <li><a href="/" use:link>Home</a></li>
+                    <li><a href="/docs" use:link>Documentation</a></li>
+                    <li><a href="https://dc.xiler.net" target="_blank">Support</a></li>
                 </ul>
             </nav>
+
+            <div class="login">
+                {#if $isSignedIn}
+                    <button class="logout" on:click={logout}>Logout</button>
+                {:else}
+                    <button on:click={login}>Connect Wallet</button>
+                {/if}
+            </div>
         </div>
-    {/if}
+
+        {#if $isSignedIn}
+            <div class="menu-bar">
+                <nav>
+                    <ul>
+                        <li><a href="/me/domains" use:link>Domains</a></li>
+                        <li><a href="/me/wallets" use:link>Wallets</a></li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <a href="/me/basket" use:link class="basket {hasItemInBasket ? 'full' : ''}">
+                                <img src="/media/header/cart.svg" alt="basket">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/me" use:link>
+                                <img src="/media/header/user.svg" alt="user">
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        {/if}
+    </div>
 </header>
 <div class="{$isSignedIn ? 'spacer-large' : 'spacer-small'}"></div>
 
 <style lang="scss">
-  $header-side-spacing: 4dvw;
   $text-color: #fff;
   $accent-color: #3598DB;
   $dark-accent-color: #2A7AAF;
@@ -83,6 +84,14 @@
     top: 0;
     left: 0;
     z-index: 100000;
+    background-color: $background-color;
+    width: 100%;
+
+    .contents {
+      width: calc(100dvw - 4dvw * 2);
+      max-width: 80rem;
+      margin: 0 auto;
+    }
 
     .menu-bar,
     .default-menu {
@@ -90,11 +99,9 @@
       align-items: center;
       justify-content: space-between;
 
-      width: calc(100dvw - #{$header-side-spacing} * 2);
       height: fit-content;
-      padding: 1.25rem #{$header-side-spacing};
+      padding: 1.25rem 0;
 
-      background-color: $background-color;
 
       .xiler {
         display: flex;

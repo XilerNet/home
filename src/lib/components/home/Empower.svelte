@@ -1,5 +1,5 @@
 <article id="empower-the-web">
-    <img src="/media/wave.svg" alt="" class="wave"/>
+    <img src="/media/empower/wave.svg" alt="" class="wave"/>
     <div class="contents">
         <h2>Empower the Web</h2>
         <p>Unlock online freedom: Decentralize domains and DNS records for enhanced security, autonomy, and censorship
@@ -41,7 +41,7 @@
             </li>
         </ul>
     </div>
-    <img src="/media/wave.svg" alt="" class="wave flip"/>
+    <img src="/media/empower/wave.svg" alt="" class="wave flip"/>
 </article>
 
 <style lang="scss">
