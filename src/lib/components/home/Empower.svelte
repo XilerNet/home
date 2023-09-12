@@ -48,6 +48,7 @@
   #empower-the-web {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 
     .wave {
       width: 100dvw;
@@ -59,7 +60,7 @@
 
     .contents {
       background-color: #2A7AAF;
-      padding: 4rem 2rem;
+      padding: 6rem 2rem;
 
       h2, h3 {
         color: #ECF0F1;
@@ -93,7 +94,7 @@
       ul {
         margin: 4rem auto 0 auto;
         display: grid;
-        width: 90dvw;
+        width: 100%;
         max-width: 70rem;
         grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
         gap: 3rem 1rem;
