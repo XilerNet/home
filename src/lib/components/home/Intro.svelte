@@ -7,6 +7,7 @@
 
     let query = "";
     let lastQuery = "";
+    let searchComplete = false;
     let domainSuggestions: string[] = [];
     const DOMAIN_SEARCH_REGEX = /^[a-z\d](?:[a-z\d-]{0,251}[a-z\d])?\.?o?$/;
 
@@ -32,6 +33,7 @@
                     let suggestions = await api.searchDomains(query);
                     suggestions = suggestions.sort((a, b) => a.length - b.length);
                     domainSuggestions = suggestions;
+                    searchComplete = true;
                 }
             }
 
@@ -39,6 +41,7 @@
         } else {
             domainSuggestions = [];
             query = "";
+            searchComplete = false;
         }
     }
 
@@ -79,6 +82,7 @@
                 }}
                     on:input={e => {
                    domainSuggestions = [];
+                     searchComplete = false;
                    if (e.currentTarget.value === "") {
                        clearUrl();
                         return;
@@ -93,7 +97,16 @@
             <button type="submit">Search</button>
         </form>
 
-        {#if domainSuggestions.length > 0}
+        {#if searchComplete && domainSuggestions.length === 0 && query !== ""}
+            <ul class="results">
+                <li class="taken">
+                    <p class="name">{getDomainName(query)}</p>
+                    <div>
+                        <p>taken</p>
+                    </div>
+                </li>
+            </ul>
+        {:else if domainSuggestions.length > 0}
             <ul class="results">
                 {#if !domainSuggestions.includes(getDomainName(query))}
                     <li class="taken">
