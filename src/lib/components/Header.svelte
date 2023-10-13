@@ -33,7 +33,7 @@
             <nav>
                 <ul>
                     <li><a href="/" use:link>Home</a></li>
-                    <li><a href="/docs" use:link>Documentation</a></li>
+<!--                    <li><a href="/docs" use:link>Documentation</a></li>-->
                     <li><a href="https://dc.xiler.net" target="_blank">Support</a></li>
                 </ul>
             </nav>
@@ -52,7 +52,7 @@
                 <nav>
                     <ul>
                         <li><a href="/me/domains" use:link>Domains</a></li>
-                        <li><a href="/me/wallets" use:link>Wallets</a></li>
+<!--                        <li><a href="/me/wallets" use:link>Wallets</a></li>-->
                     </ul>
                     <ul>
                         <li>
@@ -60,11 +60,11 @@
                                 <img src="/media/header/cart.svg" alt="basket">
                             </a>
                         </li>
-                        <li>
-                            <a href="/me" use:link>
-                                <img src="/media/header/user.svg" alt="user">
-                            </a>
-                        </li>
+<!--                        <li>-->
+<!--                            <a href="/me" use:link>-->
+<!--                                <img src="/media/header/user.svg" alt="user">-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </nav>
             </div>
