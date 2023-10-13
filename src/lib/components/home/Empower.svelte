@@ -46,6 +46,8 @@
 
 <style lang="scss">
   #empower-the-web {
+    width: 100%;
+
     display: flex;
     flex-direction: column;
     overflow-x: hidden;

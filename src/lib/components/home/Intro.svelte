@@ -179,7 +179,6 @@
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    padding-top: 9.625rem;
 
     height: calc(80dvh - 5.125rem);
 

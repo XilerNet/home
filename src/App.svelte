@@ -3,10 +3,13 @@
     import routes from "./routes";
     import Header from "./lib/components/Header.svelte";
     import Footer from "./lib/components/Footer.svelte";
+    import api from "./utils/api";
+
+    $: isSignedIn = api.isSignedIn;
 </script>
 
 <Header />
-<main>
+<main class:signed-in={$isSignedIn}>
 <Router {routes}/>
 </main>
 <Footer />

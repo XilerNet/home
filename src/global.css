@@ -4,8 +4,17 @@
     height: 100dvh;
 
     font-family: "Inter", sans-serif;
+}
 
+main {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+
+    min-height: calc(100% - 14.6875rem - 5.125rem);
+
+    &.signed-in {
+        min-height: calc(100% - 14.6875rem - 9.625rem);
+    }
 }

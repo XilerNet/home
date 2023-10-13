@@ -14,3 +14,13 @@ export interface MeResponse {
   created_at: string;
   updated_at: string;
 }
+
+
+export interface Domain {
+  domain: string,
+  inscription: string,
+}
+
+export interface DomainsResponse {
+  domains: Domain[];
+}
