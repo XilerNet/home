@@ -73,7 +73,7 @@
     <Loader/>
 {:else if initiated}
     <div class="success">
-        <img src="/public/media/basket/success.svg" alt="Payment received successfully">
+        <img src="/media/basket/success.svg" alt="Payment received successfully">
         <p>We are processing your payment and will automatically inscribe the domain.</p>
         <p>Please know that this can take some time.</p>
         <p><a href="/me/domains" use:link>Go to your domains.</a></p>
@@ -135,7 +135,7 @@
                                     type="button"
                                     disabled="{isProcessing}"
                             >
-                                <img src="/public/media/basket/delete.svg" alt="Remove from basket">
+                                <img src="/media/basket/delete.svg" alt="Remove from basket">
                             </button>
                         </div>
 

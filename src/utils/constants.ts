@@ -1,4 +1,4 @@
-export const IN_PRODUCTION = import.meta.env.NODE_ENV === "production";
+export const IN_PRODUCTION = import.meta.env.PROD;
 
 export const AUTH_TOKEN_LOCATION = "Xiler-Authorization-Token";
 

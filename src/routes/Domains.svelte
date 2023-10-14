@@ -58,7 +58,7 @@
                             <a
                                     title="{domain.domain} payment"
                                     target="_blank"
-                                    href="#"
+                                    href="/"
                                     class="processing"
                             >
                                 processing payment
