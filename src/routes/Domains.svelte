@@ -17,12 +17,14 @@
             <ul class="domain-listing">
                 {#each domains as domain}
                     <li>
-                        <p>
-                            {domain.domain}
-                        </p>
+                        <p>{domain.domain}</p>
                         <a
                                 title="{domain.domain} inscription"
-                                href="https://ordinals.com/inscription/{domain.inscription}">inscription</a>
+                                target="_blank"
+                                href="https://ordinals.com/inscription/{domain.inscription}"
+                        >
+                            inscription
+                        </a>
                     </li>
                 {/each}
             </ul>

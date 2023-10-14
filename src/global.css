@@ -1,3 +1,7 @@
+:root {
+    --toastContainerZIndex: 999999999999;
+}
+
 #app {
     position: relative;
     width: 100%;
@@ -17,4 +21,8 @@ main {
     &.signed-in {
         min-height: calc(100% - 14.6875rem - 9.625rem);
     }
+}
+
+._toastMsg {
+    word-break: break-word;
 }

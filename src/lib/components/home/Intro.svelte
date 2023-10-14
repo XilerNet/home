@@ -3,7 +3,7 @@
     import {push, querystring} from "svelte-spa-router";
     import {parse} from "qs";
     import {addToBasket, basket, removeFromBasket} from "../../../stores/basket";
-    import {AUTH_WEB_URL} from "../../../utils/constants";
+    import {AUTH_WEB_URL, DOMAIN_PRICE} from "../../../utils/constants";
 
     let query = "";
     let lastQuery = "";
@@ -122,7 +122,7 @@
                     <li>
                         <p class="name">{domainSuggestion}</p>
                         <div>
-                            <p>0.0005 BTC</p>
+                            <p>{DOMAIN_PRICE}BTC</p>
                             <button
                                     on:click={() => {
                                         if ($basket.includes(getDomainName(domainSuggestion))) {
@@ -153,7 +153,7 @@
     <ul class="guarantees">
         <li>
             <img src="/media/intro/check.svg" alt="checkmark">
-            <p>Fully Secure</p>
+            <p>Cryptographically Secure</p>
         </li>
         <li>
             <img src="/media/intro/check.svg" alt="checkmark">

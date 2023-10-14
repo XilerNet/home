@@ -1,14 +1,14 @@
 import type {
-    Domain,
+    Domain, DomainOrderItem, DomainOrderResponse,
     DomainsResponse,
     ErrorResponse,
-    MeResponse,
+    MeResponse, PaymentStatusResponse,
     RefreshTokenResponse,
 } from "../types/api";
 import {
     AUTH_API_URL,
     AUTH_TOKEN_LOCATION,
-    DOMAINS_API_URL,
+    DOMAINS_API_URL, PAYMENT_API_URL,
 } from "./constants";
 import {writable} from "svelte/store";
 
@@ -60,9 +60,6 @@ class Api {
     }
 
     async getDomainsForAddresses(addresses: string[]): Promise<Domain[]> {
-        // TODO: remove for prod
-       addresses =  ["bc1p59u8ruqrvw5h28gzu54eah4cndzlsw7fqjks6lfk8755zsxz6dvq4q4g2d", ...addresses];
-
         return this.requestDomains<DomainsResponse>(
             "/domains",
             "POST",
@@ -74,6 +71,23 @@ class Api {
     async getDomains(): Promise<Domain[]> {
         const addresses = await this.getAddresses();
         return this.getDomainsForAddresses(addresses);
+    }
+
+    async createDomainOrder(domains: DomainOrderItem[]): Promise<DomainOrderResponse> {
+        return this.requestPay<DomainOrderResponse>(
+            "/new",
+            "POST",
+            true,
+            {domains},
+        );
+    }
+
+    async getOrderStatus(id: string): Promise<PaymentStatusResponse> {
+        return this.requestPay<PaymentStatusResponse>(
+            `/status/${id}`,
+            "GET",
+            true,
+        );
     }
 
     private async request<T>(
@@ -136,19 +150,22 @@ class Api {
         return this.requestWithHeader<T>(AUTH_API_URL, path, method, bearer, body);
     }
 
+    private async requestPay<T>(
+        path: string,
+        method: string,
+        bearer?: boolean,
+        body?: any,
+    ): Promise<T> {
+        return this.requestWithHeader<T>(PAYMENT_API_URL, path, method, bearer, body);
+    }
+
     private async requestDomains<T>(
         path: string,
         method: string,
         bearer?: boolean,
         body?: any,
     ): Promise<T> {
-        return this.requestWithHeader<T>(
-            DOMAINS_API_URL,
-            path,
-            method,
-            bearer,
-            body,
-        );
+        return this.requestWithHeader<T>(DOMAINS_API_URL, path, method, bearer, body);
     }
 }
 

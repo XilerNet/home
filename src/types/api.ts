@@ -24,3 +24,26 @@ export interface Domain {
 export interface DomainsResponse {
   domains: Domain[];
 }
+
+export interface DomainOrderItem {
+  domain: string,
+  target: string,
+}
+
+export interface DomainOrderResponse {
+  id: string,
+  address: string,
+  amount: number,
+}
+
+export interface PaymentStatusResponse {
+    id: string,
+    account_id: string,
+    address: string,
+    amount: number,
+    received: number,
+    initiated: boolean,
+    completed: boolean,
+    created_at: string,
+    updated_at: string,
+}

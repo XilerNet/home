@@ -12,5 +12,6 @@ export default {
     "/auth": route("Auth"),
     "/me/basket": route("Basket"),
     "/me/domains": route("Domains"),
+    "/risk": route("Risk"),
     "*": route("NotFound"),
 };
