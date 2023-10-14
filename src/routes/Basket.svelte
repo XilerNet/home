@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {basket, removeFromBasket} from "../stores/basket";
+    import {basket, clearBasket, removeFromBasket} from "../stores/basket";
     import api from "../utils/api";
     import type {DomainOrderResponse, DomainOrderItem} from "../types/api";
     import {DOMAIN_PRICE, PAYMENT_API_URL} from "../utils/constants";
@@ -62,6 +62,7 @@
             if (status.initiated) {
                 initiated = true;
                 clearInterval(orderStatusInterval);
+                clearBasket();
             }
         }, 1000);
 
@@ -75,7 +76,7 @@
         <img src="/public/media/basket/success.svg" alt="Payment received successfully">
         <p>We are processing your payment and will automatically inscribe the domain.</p>
         <p>Please know that this can take some time.</p>
-        <p><a href="/me/domains" use:link>Go to your domains.</a></p>
+        <p><a href="/me/basket" use:link>Go to your domains.</a></p>
     </div>
 {:else}
     {#if isProcessing}

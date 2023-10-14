@@ -2,7 +2,7 @@ import type {
     Domain, DomainOrderItem, DomainOrderResponse,
     DomainsResponse,
     ErrorResponse,
-    MeResponse, PaymentStatusResponse,
+    MeResponse, OwnedDomain, OwnedDomainsResponse, PaymentStatusResponse,
     RefreshTokenResponse,
 } from "../types/api";
 import {
@@ -65,6 +65,14 @@ class Api {
             "POST",
             false,
             {addresses},
+        ).then(domains => domains.domains);
+    }
+
+    async getOwnedDomains(): Promise<OwnedDomain[]> {
+        return this.requestPay<OwnedDomainsResponse>(
+            "/domains",
+            "GET",
+            true,
         ).then(domains => domains.domains);
     }
 

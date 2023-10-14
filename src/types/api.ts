@@ -47,3 +47,13 @@ export interface PaymentStatusResponse {
     created_at: string,
     updated_at: string,
 }
+
+export interface OwnedDomain {
+    domain: string,
+    payment_completed: boolean,
+    reveal_tx: string | null,
+}
+
+export interface OwnedDomainsResponse {
+    domains: OwnedDomain[],
+}
