@@ -37,13 +37,23 @@
                         <p>{domain.domain}</p>
 
                         {#if domain.payment_completed}
-                            <a
-                                    title="{domain.domain} inscription"
-                                    target="_blank"
-                                    href="https://ordinals.com/inscription/{domain.reveal_tx}"
-                            >
-                                inscription
-                            </a>
+                            {#if domains.findIndex(o => o.domain === domain.domain) !== -1}
+                                <a
+                                        title="{domain.domain} inscription"
+                                        target="_blank"
+                                        href="https://ordinals.com/inscription/{domains.find(o => o.domain === domain.domain)?.inscription}"
+                                >
+                                    inscription
+                                </a>
+                            {:else}
+                                <a
+                                        title="{domain.domain} inscription"
+                                        target="_blank"
+                                        href="https://ordinals.com/tx/{domain.reveal_tx}"
+                                >
+                                    inscription
+                                </a>
+                            {/if}
                         {:else}
                             <a
                                     title="{domain.domain} payment"
@@ -55,7 +65,7 @@
                             </a>
                         {/if}
                 {/each}
-                {#each domains.filter(d => ownedDomains.find(o => o.domain === d.domain) !== null) as domain}
+                {#each domains.filter(d => !ownedDomains.find(o => o.domain === d.domain)) as domain}
                     <li class="external">
                         <p>{domain.domain}</p>
 

@@ -6,9 +6,7 @@
 
     const logout = async () => {
         await api.logout();
-        console.log("Logged out")
-        window.location.reload();
-        console.log("Reloaded")
+        window.location.href = "/";
     }
 
     const login = async () => {
