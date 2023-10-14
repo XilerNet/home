@@ -72,22 +72,22 @@
         font-size: 1.375rem;
       }
 
-      button {
-        background-color: #3598DB;
-        border: none;
-        border-radius: 0.375rem;
-        padding: 0.75rem 1.125rem;
-        color: #fff;
-        font-size: 0.938rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s ease-in-out;
-        width: fit-content;
-
-        &:hover {
-          background-color: #2A7AAF;
-        }
-      }
+      //button {
+      //  background-color: #3598DB;
+      //  border: none;
+      //  border-radius: 0.375rem;
+      //  padding: 0.75rem 1.125rem;
+      //  color: #fff;
+      //  font-size: 0.938rem;
+      //  font-weight: 600;
+      //  cursor: pointer;
+      //  transition: background-color 0.2s ease-in-out;
+      //  width: fit-content;
+      //
+      //  &:hover {
+      //    background-color: #2A7AAF;
+      //  }
+      //}
     }
 
     & > img {
