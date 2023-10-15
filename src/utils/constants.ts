@@ -18,4 +18,4 @@ export const PAYMENT_API_URL = IN_PRODUCTION
     ? "https://pay-api.xiler.net"
     : "http://localhost:25202";
 
-export const DOMAIN_PRICE = 0.0005;
+export const DOMAIN_PRICE = 0.0007;
