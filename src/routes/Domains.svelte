@@ -36,7 +36,7 @@
                     <li>
                         <p>{domain.domain}</p>
 
-                        {#if domain.payment_completed}
+                        {#if domain?.reveal_tx !== null}
                             {#if domains.findIndex(o => o.domain === domain.domain) !== -1}
                                 <a
                                         title="{domain.domain} inscription"
