@@ -14,6 +14,7 @@
     let isProcessing = false;
     let paymentDetails: DomainOrderResponse | null = null;
     let initiated = false;
+    let orderExpiredCountdown = 30 * 60 * 1000;
 
 
     let order: DomainOrderItem[] = [];
@@ -55,7 +56,6 @@
             return;
         }
 
-        // TODO: Start background polling for payment status
         const orderStatusInterval = setInterval(async () => {
             const status = await api.getOrderStatus(paymentDetails!.id);
 
@@ -66,6 +66,17 @@
             }
         }, 1000);
 
+        const orderCountDownInterval = setInterval(() => {
+            orderExpiredCountdown -= 1000;
+
+            if (initiated) {
+                clearInterval(orderCountDownInterval);
+            } else if (orderExpiredCountdown <= 0) {
+                clearInterval(orderCountDownInterval);
+                clearInterval(orderStatusInterval);
+                isProcessing = false;
+            }
+        }, 1000);
     }
 </script>
 
@@ -79,7 +90,7 @@
         <p><a href="/me/domains" use:link>Go to your domains.</a></p>
     </div>
 {:else}
-    {#if isProcessing}
+    {#if isProcessing && orderExpiredCountdown > 0}
         <div class="loader" class:payment={paymentDetails !== null}>
             <div class="content">
                 {#if paymentDetails !== null}
@@ -89,6 +100,26 @@
                     <p>Send <span>{paymentDetails.amount}BTC</span> to:</p>
                     <p class="address">{paymentDetails.address}</p>
                     <p class="order-id">Order ID: {paymentDetails.id}</p>
+                    <p class="order-id">This order expires in
+                        {#if orderExpiredCountdown > 0}
+                            {#if orderExpiredCountdown > 60 * 1000}
+                                {#if orderExpiredCountdown > 60 * 60 * 1000}
+                                    {#if orderExpiredCountdown > 24 * 60 * 60 * 1000}
+                                        {Math.floor(orderExpiredCountdown / (24 * 60 * 60 * 1000))} days
+                                    {:else}
+                                        {Math.floor(orderExpiredCountdown / (60 * 60 * 1000))} hours
+                                    {/if}
+                                {:else}
+                                    {Math.floor(orderExpiredCountdown / (60 * 1000))} minutes
+                                {/if}
+                            {:else}
+                                {Math.floor(orderExpiredCountdown / 1000)} seconds
+                            {/if}
+                        {:else}
+                            0 seconds
+                        {/if}
+                    </p>
+
                 {:else}
                     <div class="loader-wrapper">
                         <Loader/>
