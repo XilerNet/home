@@ -2,7 +2,7 @@ import type {
     Domain, DomainOrderItem, DomainOrderResponse,
     DomainsResponse,
     ErrorResponse,
-    MeResponse, OwnedDomain, OwnedDomainsResponse, PaymentStatusResponse,
+    MeResponse, OwnedDomain, OwnedDomainsResponse, PaymentStatusResponse, PricingResponse,
     RefreshTokenResponse,
 } from "../types/api";
 import {
@@ -98,6 +98,22 @@ class Api {
         );
     }
 
+    async deletePayment(id: string): Promise<void> {
+        return this.requestPay<void>(
+            `/delete/${id}`,
+            "DELETE",
+            true,
+        );
+    }
+
+    async getPricing(domainCount: number): Promise<PricingResponse> {
+        return this.requestPay<PricingResponse>(
+            `/pricing?amount=${domainCount}`,
+            "GET",
+            true,
+        );
+    }
+
     private async request<T>(
         base_url: string,
         path: string,
@@ -122,7 +138,7 @@ class Api {
             try {
                 json = JSON.parse(text);
             } catch (e) {
-                throw new Error(text);
+                json = {message: text};
             }
         }
 

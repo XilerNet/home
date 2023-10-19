@@ -1,7 +1,7 @@
 <script lang="ts">
     import {basket, clearBasket, removeFromBasket} from "../stores/basket";
     import api from "../utils/api";
-    import type {DomainOrderResponse, DomainOrderItem} from "../types/api";
+    import type {DomainOrderResponse, DomainOrderItem, PricingResponse} from "../types/api";
     import {DOMAIN_PRICE, PAYMENT_API_URL} from "../utils/constants";
     import Loader from "../lib/components/Loader.svelte";
     import QRCode from "@castlenine/svelte-qrcode"
@@ -13,9 +13,9 @@
     let loadingFull = true;
     let isProcessing = false;
     let paymentDetails: DomainOrderResponse | null = null;
+    let domainPricing: PricingResponse | null = null;
     let initiated = false;
     let orderExpiredCountdown = 30 * 60 * 1000;
-
 
     let order: DomainOrderItem[] = [];
 
@@ -26,7 +26,7 @@
         order = $basket.map((domain) => {
             return {
                 domain,
-                target: addresses[0],
+                target: allReceiveAddress
             };
         });
         loadingFull = false;
@@ -41,6 +41,7 @@
         isProcessing = true;
         try {
             paymentDetails = await api.createDomainOrder(order);
+            orderExpiredCountdown = 30 * 60 * 1000;
         } catch (e) {
             console.error(e);
             toast.push(e.message, {
@@ -78,6 +79,31 @@
             }
         }, 1000);
     }
+
+    function cancelOrder() {
+        const proceed = window.confirm("Cancelling the order will not refund your payment. Are you sure you want to cancel?");
+
+        if (!proceed) {
+            return;
+        }
+
+        const paymentId = paymentDetails!.id;
+
+        loadingFull = true;
+        initiated = false;
+        isProcessing = false;
+        paymentDetails = null;
+
+        api.deletePayment(paymentId).then(() => {
+            loadingFull = false;
+        });
+    }
+
+    async function getDomainPricing(amount: number) {
+        domainPricing = await api.getPricing(amount);
+    }
+
+    $: getDomainPricing($basket.length);
 </script>
 
 {#if loadingFull}
@@ -94,6 +120,7 @@
         <div class="loader" class:payment={paymentDetails !== null}>
             <div class="content">
                 {#if paymentDetails !== null}
+                    <button class="cancel-payment" title="Cancel Order" on:click={cancelOrder}></button>
                     <div class="qr-wrapper">
                         <QRCode isResponsive content="bitcoin:{paymentDetails.address}"/>
                     </div>
@@ -189,7 +216,34 @@
 
         <section id="order">
             <h1>Order</h1>
-            <h2>Total cost: {DOMAIN_PRICE * order.length}BTC</h2>
+            <ul class="transcript">
+                <li>
+                    <p>Total cost</p>
+                    <p>{DOMAIN_PRICE * order.length}BTC</p>
+                </li>
+                {#if domainPricing !== null}
+                    <li><h2>Loyalty program benefits:</h2></li>
+                    {#each domainPricing.stackable_loyalty_discounts as loyalty}
+                        <li>
+                            <p>{loyalty.message}</p>
+                            <p>-{loyalty.amount}{loyalty.currency}</p>
+                        </li>
+                    {/each}
+                    <li>
+                        <p>Holder of:
+                            {#each domainPricing.non_stackable_loyalty_discounts as holder}
+                                <span class="collection">{@html holder}</span>
+                            {/each}
+                        </p>
+                        <p>
+                            -{domainPricing.non_stackable_loyalty_discount}{domainPricing.non_stackable_loyalty_discount_currency}</p>
+                    </li>
+                    <li class="final-cost">
+                        <p>Final cost:</p>
+                        <p>{domainPricing.final_price}BTC</p>
+                    </li>
+                {/if}
+            </ul>
             <label for="accept-risk-warning">
                 <input id="accept-risk-warning" type="checkbox" required
                        disabled="{isProcessing}"
@@ -312,6 +366,49 @@
       font-weight: 600;
       cursor: pointer;
     }
+
+    .transcript {
+      h2 {
+        font-size: 1.1rem;
+        font-weight: 500;
+
+        margin: 0.5rem 0 0 0;
+      }
+
+      li {
+        display: grid;
+        grid-template-columns: 1fr max-content;
+        gap: 0.5rem;
+
+        margin-top: 0.5rem;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &.final-cost {
+          margin-top: 1.5rem;
+          font-weight: 600;
+        }
+
+        :global(a) {
+          color: #000;
+          text-decoration: underline;
+        }
+
+        .collection {
+          white-space: nowrap;
+
+          &::after {
+            content: ", ";
+          }
+
+          &:last-child::after {
+            content: "";
+          }
+        }
+      }
+    }
   }
 
   .loader {
@@ -352,6 +449,43 @@
       max-width: 100%;
       text-align: center;
       word-break: break-word;
+    }
+
+    .cancel-payment {
+      $size: 1.5rem;
+
+      border: none;
+      border-radius: calc($size / 4);
+      background-color: #3598DB;
+      width: $size;
+      height: $size;
+
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+
+      cursor: pointer;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: calc($size / 1.5);
+        height: calc($size / 8);
+        background-color: #fff;
+        border-radius: calc($size / 8);
+      }
+
+      &::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      &::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
     }
 
     &.payment {
@@ -426,4 +560,5 @@
       text-decoration: underline;
     }
   }
+
 </style>
