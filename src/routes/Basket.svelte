@@ -16,25 +16,34 @@
     let domainPricing: PricingResponse | null = null;
     let initiated = false;
     let orderExpiredCountdown = 30 * 60 * 1000;
+    let xShareUrl = 'https://x.com/XilerNetwork';
 
     let order: DomainOrderItem[] = [];
 
-    api.getAddresses().then((res) => {
-        addresses = res;
+    Promise.all([
+        api.getAddresses()
+            .then((res) => {
+                addresses = res;
 
-        allReceiveAddress = addresses[0];
-        order = $basket.map((domain) => {
-            return {
-                domain,
-                target: allReceiveAddress
-            };
-        });
+                allReceiveAddress = addresses[0];
+                order = $basket.map((domain) => {
+                    return {
+                        domain,
+                        target: allReceiveAddress
+                    };
+                });
+                updateXShareUrl();
+            }),
+        updateDomainPricing($basket.length)
+    ]).then(() => {
         loadingFull = false;
     });
 
     function deleteFromBasket(domain) {
         removeFromBasket(domain);
         order = order.filter((item) => item.domain !== domain);
+        updateDomainPricing(order.length)
+        updateXShareUrl();
     }
 
     async function handleSubmit() {
@@ -99,11 +108,29 @@
         });
     }
 
-    async function getDomainPricing(amount: number) {
+    async function updateDomainPricing(amount: number) {
+        if (amount === 0) {
+            domainPricing = null;
+            return;
+        }
         domainPricing = await api.getPricing(amount);
     }
 
-    $: getDomainPricing($basket.length);
+    function updateXShareUrl() {
+        let domains;
+        if (order.length < 2) {
+            domains = order.map(d => d.domain).join("%2C%20");
+        } else {
+            let suffix = ` and ${order[order.length - 1].domain}`;
+
+            if (order.length > 2) {
+                suffix = `,${suffix}`;
+            }
+
+            domains = order.slice(0, order.length - 1).map(d => d.domain).join("%2C%20") + suffix;
+        }
+        xShareUrl = `https://x.com/intent/tweet?text=Just%20bought%20my%20decentralized%20domain${order.length > 1 ? 's' : ''}%20${domains}%20via%20@XilerNetwork!%0A%0A&url=https://xiler.net`;
+    }
 </script>
 
 {#if loadingFull}
@@ -113,7 +140,12 @@
         <img src="/media/basket/success.svg" alt="Payment received successfully">
         <p>We are processing your payment and will automatically inscribe the domain.</p>
         <p>Please know that this can take some time.</p>
-        <p><a href="/me/domains" use:link>Go to your domains.</a></p>
+        <p class="share-x">
+            <a href="{xShareUrl}" target="_blank">
+                <img src="/media/basket/x.svg" alt="Share on X">
+                Share
+            </a>
+        </p>
     </div>
 {:else}
     {#if isProcessing && orderExpiredCountdown > 0}
@@ -169,6 +201,11 @@
             <div class="receive-all">
                 <label for="receive-address">Receive address for all</label>
                 <input id="receive-address" type="text" list="owned-addresses"
+                       on:keydown={(e) => {
+                          if (e.key === " ") {
+                              e.preventDefault();
+                          }
+                       }}
                        on:input={(e) => {
                     allReceiveAddress = e.target.value;
 
@@ -201,6 +238,11 @@
 
                         <label for="receive-address-{item}">Receive address</label>
                         <input id="receive-address-{item}" type="text" list="owned-addresses"
+                               on:keydown={(e) => {
+                                  if (e.key === " ") {
+                                      e.preventDefault();
+                                  }
+                               }}
                                bind:value={item.target}
                                on:input={(e) => {
                             order[index].target = e.target.value;
@@ -544,6 +586,7 @@
     img {
       width: 10rem;
       margin-bottom: 2rem;
+      filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.2));
     }
 
     p {
@@ -558,6 +601,30 @@
     a {
       color: #000;
       text-decoration: underline;
+    }
+  }
+
+  .share-x a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 4rem;
+    background-color: #000000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
+
+    img {
+      height: 1.5rem;
+      width: 1.5rem;
+      margin: 0 0.5rem 0 0;
+    }
+
+    &:hover {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+      transform: translateY(-0.1rem);
+      opacity: 0.9;
     }
   }
 

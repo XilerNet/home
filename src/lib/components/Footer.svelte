@@ -30,13 +30,13 @@
 
             <div class="socials">
                 <a href="https://dc.xiler.net" target="_blank" rel="noopener noreferrer">
-                    <img src="/media/footer/discord.svg" alt="Discord"/>
+                    <img class="larger" src="/media/footer/discord.svg" alt="Discord"/>
                 </a>
-                <a href="https://twitter.com/XilerNetwork" target="_blank" rel="noopener noreferrer">
-                    <img src="/media/footer/twitter.svg" alt="Twitter"/>
+                <a href="https://x.com/XilerNetwork" target="_blank" rel="noopener noreferrer">
+                    <img src="/media/footer/x.svg" alt="X"/>
                 </a>
                 <a href="https://github.com/XilerNet" target="_blank" rel="noopener noreferrer">
-                    <img src="/media/footer/github.svg" alt="GitHub"/>
+                    <img class="larger" src="/media/footer/github.svg" alt="GitHub"/>
                 </a>
             </div>
         </div>
@@ -97,11 +97,19 @@
 
       .socials {
         display: flex;
+        align-items: center;
         gap: 0.75rem;
 
         img {
           display: inline-block;
-          width: 1.5rem;
+          width: 100%;
+          max-width: 1.25rem;
+          max-height: 1.25rem;
+
+          &.larger {
+            max-width: 1.75rem;
+            max-height: 1.75rem;
+          }
         }
       }
 
