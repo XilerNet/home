@@ -20,24 +20,22 @@
 
     let order: DomainOrderItem[] = [];
 
-    Promise.all([
-        api.getAddresses()
-            .then((res) => {
-                addresses = res;
+    api.getAddresses()
+        .then((res) => {
+            addresses = res;
 
-                allReceiveAddress = addresses[0];
-                order = $basket.map((domain) => {
-                    return {
-                        domain,
-                        target: allReceiveAddress
-                    };
-                });
-                updateXShareUrl();
-            }),
-        updateDomainPricing($basket.length)
-    ]).then(() => {
-        loadingFull = false;
-    });
+            allReceiveAddress = addresses[0];
+            order = $basket.map((domain) => {
+                return {
+                    domain,
+                    target: allReceiveAddress
+                };
+            });
+            loadingFull = false;
+            updateXShareUrl();
+        });
+
+    updateDomainPricing($basket.length);
 
     function deleteFromBasket(domain) {
         removeFromBasket(domain);
@@ -267,18 +265,24 @@
                     <li><h2>Loyalty program benefits:</h2></li>
                     {#each domainPricing.stackable_loyalty_discounts as loyalty}
                         <li>
-                            <p>{loyalty.message}</p>
+                            <p>{@html loyalty.message}</p>
                             <p>-{loyalty.amount}{loyalty.currency}</p>
                         </li>
                     {/each}
-                    <li>
-                        <p>Holder of:
-                            {#each domainPricing.non_stackable_loyalty_discounts as holder}
-                                <span class="collection">{@html holder}</span>
-                            {/each}
-                        </p>
-                        <p>
-                            -{domainPricing.non_stackable_loyalty_discount}{domainPricing.non_stackable_loyalty_discount_currency}</p>
+                    {#if domainPricing.non_stackable_loyalty_discounts.length !== 0}
+                        <li>
+                            <p>Holder of:
+                                {#each domainPricing.non_stackable_loyalty_discounts as holder}
+                                    <span class="collection">{@html holder}</span>
+                                {/each}
+                            </p>
+                            <p>
+                                -{domainPricing.non_stackable_loyalty_discount}{domainPricing.non_stackable_loyalty_discount_currency}</p>
+                        </li>
+                    {/if}
+                    <li class="total-discount">
+                        <p>Total discount</p>
+                        <p>-{100 - ((domainPricing.final_price / (DOMAIN_PRICE * order.length)) * 100)}%</p>
                     </li>
                     <li class="final-cost">
                         <p>Final cost:</p>
@@ -426,6 +430,10 @@
 
         &:first-child {
           margin-top: 0;
+        }
+
+        &.total-discount {
+          font-weight: 600;
         }
 
         &.final-cost {
