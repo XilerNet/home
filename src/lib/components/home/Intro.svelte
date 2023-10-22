@@ -267,6 +267,9 @@
     .guarantees {
       display: flex;
       gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0 2rem;
 
       li {
         display: flex;
@@ -276,6 +279,10 @@
         p {
           font-size: 1rem;
         }
+      }
+
+      @media (max-width: 380px) {
+        margin: 0 1rem;
       }
     }
 
@@ -288,16 +295,26 @@
         display: grid;
         grid-template-columns: 1fr auto;
 
+
+        @media (max-width: 400px) {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+
         input {
           font-size: 0.938rem;
           font-weight: 500;
 
           border: 0.063rem solid #ECF0F1;
-          border-right: none;
-          border-bottom-left-radius: 0.375rem;
-          border-top-left-radius: 0.375rem;
+          border-radius: 0.375rem;
 
           padding: 0.75rem 1rem;
+
+          @media (min-width: 400px) {
+            border-right: none;
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+          }
         }
 
         button {
@@ -308,8 +325,7 @@
           color: $text-on-accent-color;
 
           border: none;
-          border-bottom-right-radius: 0.375rem;
-          border-top-right-radius: 0.375rem;
+          border-radius: 0.375rem;
 
           padding: 0.75rem 1.125rem;
 
@@ -318,6 +334,11 @@
 
           &:hover {
             background-color: $dark-accent-color;
+          }
+
+          @media (min-width: 400px) {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
           }
         }
       }

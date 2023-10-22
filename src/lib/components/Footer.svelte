@@ -69,6 +69,22 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 80dvw;
+        margin: 0 auto;
+
+        h6 {
+          text-align: center;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
 
       button {
         background-color: #3598DB;
@@ -80,6 +96,7 @@
         font-size: 0.938rem;
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
+        white-space: nowrap;
 
         &:hover {
           background-color: #2C81BA;
@@ -94,6 +111,11 @@
       margin-top: 2rem;
       padding-top: 1rem;
       border-top: 0.06rem solid #2C3E50;
+
+      @media (max-width: 768px) {
+        max-width: 80dvw;
+        margin: 2rem auto 0 auto;
+      }
 
       .socials {
         display: flex;

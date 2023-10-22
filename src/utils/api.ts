@@ -35,15 +35,21 @@ class Api {
     }
 
     async logout(): Promise<void> {
-        return this.requestAuth<void>("/logout", "POST", true);
+        await this.requestAuth<void>("/logout", "POST", true);
+        localStorage.removeItem(AUTH_TOKEN_LOCATION);
     }
 
     async initSignedIn(): Promise<boolean> {
+        if (!localStorage.getItem(AUTH_TOKEN_LOCATION)) {
+            return false;
+        }
+
         try {
             await this.me();
             this.isSignedIn.set(true);
             return true;
         } catch (e) {
+            localStorage.removeItem(AUTH_TOKEN_LOCATION);
             return false;
         }
     }
