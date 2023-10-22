@@ -11,6 +11,7 @@ import {
     DOMAINS_API_URL, PAYMENT_API_URL,
 } from "./constants";
 import {writable} from "svelte/store";
+import {toast} from "@zerodevx/svelte-toast";
 
 class Api {
     public isSignedIn = writable(false);
@@ -125,14 +126,31 @@ class Api {
             "Content-Type": "application/json",
         };
 
-        const res = await fetch(`${base_url}${path}`, {
-            method,
-            headers: {...defaultHeaders, ...headers},
-            body: JSON.stringify(body),
-        });
+        let res: Response;
+        let text: string;
+
+        try {
+            res = await fetch(`${base_url}${path}`, {
+                method,
+                headers: {...defaultHeaders, ...headers},
+                body: JSON.stringify(body),
+            });
+            text = await res.text();
+        } catch (e) {
+            toast.push("Network error, please make sure you are connected to the internet. If this keeps happening, contact a system administrator. (https://dc.xiler.net)", {
+                theme: {
+                    '--toastWidth': '80dvw',
+                    '--toastBackground': '#F56565',
+                    '--toastProgressBackground': '#C53030',
+                    '--toastProgressFill': '#fff',
+                    '--toastColor': '#fff',
+                },
+            });
+            console.error(`Network error: ${e}`);
+            throw new Error(`Network error: ${e}`);
+        }
 
         let json: T | ErrorResponse;
-        let text = await res.text();
 
         if (text) {
             try {
@@ -143,7 +161,18 @@ class Api {
         }
 
         if (!(res.status >= 200 && res.status < 300)) {
-            throw new Error((json! as ErrorResponse).message);
+            let message = (json! as ErrorResponse).message;
+            toast.push(message, {
+                theme: {
+                    '--toastWidth': '80dvw',
+                    '--toastBackground': '#F56565',
+                    '--toastProgressBackground': '#C53030',
+                    '--toastProgressFill': '#fff',
+                    '--toastColor': '#fff',
+                },
+            });
+            console.error(message);
+            throw new Error(message);
         }
 
         return json! as T;

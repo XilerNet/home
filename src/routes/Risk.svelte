@@ -1,3 +1,8 @@
+<svelte:head>
+    <title>Xiler Network | Risk Disclosure</title>
+</svelte:head>
+
+
 <article>
     <h1>Risk Disclosure</h1>
 
@@ -5,18 +10,16 @@
         <li>
             <p>
                 Front Running Risk: We cannot verify if another inscriber has registered the same domain in the current
-                block,
-                making it impossible to ensure the validation of your domain. While the likelihood of this occurring is
-                minimal,
-                exercise caution when inscribing common names (e.g., short letter abbreviations or common words).
+                block, making it impossible to ensure the validation of your domain. While the likelihood of this
+                occurring is minimal, exercise caution when inscribing common names (e.g., short letter abbreviations or
+                common words). Please do note that we provide internal checks to prevent this behaviour on our platform.
             </p>
         </li>
 
         <li>
             <p>
                 Platform Order Congestion: During periods of platform order congestion, delays in on-chain processing
-                may occur,
-                and we cannot provide a guarantee for the on-chain processing time.
+                may occur, and we cannot provide a guarantee for the on-chain processing time.
             </p>
         </li>
     </ol>

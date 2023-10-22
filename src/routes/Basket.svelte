@@ -2,7 +2,7 @@
     import {basket, clearBasket, removeFromBasket} from "../stores/basket";
     import api from "../utils/api";
     import type {DomainOrderResponse, DomainOrderItem, PricingResponse} from "../types/api";
-    import {DOMAIN_PRICE, PAYMENT_API_URL} from "../utils/constants";
+    import {AUTH_API_URL, DOMAIN_PRICE, PAYMENT_API_URL} from "../utils/constants";
     import Loader from "../lib/components/Loader.svelte";
     import QRCode from "@castlenine/svelte-qrcode"
     import {toast} from "@zerodevx/svelte-toast";
@@ -50,16 +50,6 @@
             paymentDetails = await api.createDomainOrder(order);
             orderExpiredCountdown = 30 * 60 * 1000;
         } catch (e) {
-            console.error(e);
-            toast.push(e.message, {
-                theme: {
-                    '--toastWidth': '80dvw',
-                    '--toastBackground': '#F56565',
-                    '--toastProgressBackground': '#C53030',
-                    '--toastProgressFill': '#fff',
-                    '--toastColor': '#fff',
-                },
-            });
             isProcessing = false;
             return;
         }
@@ -131,6 +121,13 @@
     }
 </script>
 
+<svelte:head>
+    <title>Xiler Network | Basket</title>
+
+    <link rel="preconnect" href="{PAYMENT_API_URL}">
+    <link rel="preconnect" href="{AUTH_API_URL}">
+</svelte:head>
+
 {#if loadingFull}
     <Loader/>
 {:else if initiated}
@@ -139,7 +136,7 @@
         <p>We are processing your payment and will automatically inscribe the domain.</p>
         <p>Please know that this can take some time.</p>
         <p class="share-x">
-            <a href="{xShareUrl}" target="_blank">
+            <a href="{xShareUrl}" target="_blank" rel="noopener noreferrer">
                 <img src="/media/basket/x.svg" alt="Share on X">
                 Share
             </a>
@@ -261,7 +258,7 @@
                     <p>Total cost</p>
                     <p>{DOMAIN_PRICE * order.length}BTC</p>
                 </li>
-                {#if domainPricing !== null}
+                {#if domainPricing !== null && (domainPricing.stackable_loyalty_discounts.length !== 0 || domainPricing.non_stackable_loyalty_discounts.length !== 0)}
                     <li><h2>Loyalty program benefits:</h2></li>
                     {#each domainPricing.stackable_loyalty_discounts as loyalty}
                         <li>
@@ -294,7 +291,8 @@
                 <input id="accept-risk-warning" type="checkbox" required
                        disabled="{isProcessing}"
                 >
-                I have read and agreed to the <a href="#/risk" target="_blank">risk warning</a>
+                I have read and agreed to the <a href="#/risk" rel="noopener noreferrer" target="_blank">risk
+                warning</a>
             </label>
             <button
                     type="submit"

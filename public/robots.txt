@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /#/me/*
+SiteMap: https://private-alpha-3hveh2uefzuqepp9a.xiler.net/sitemap.xml

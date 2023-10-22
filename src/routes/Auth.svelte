@@ -2,7 +2,7 @@
     import {push, querystring} from "svelte-spa-router";
     import {parse} from "qs";
     import api from "../utils/api";
-    import {AUTH_TOKEN_LOCATION, AUTH_WEB_URL} from "../utils/constants";
+    import {AUTH_API_URL, AUTH_TOKEN_LOCATION, AUTH_WEB_URL, DOMAINS_API_URL} from "../utils/constants";
 
     const parsedQueryString = $querystring ? parse($querystring) : {};
     let token = "none";
@@ -23,6 +23,11 @@
     handleRefreshToken();
 </script>
 
+<svelte:head>
+    <title>Xiler Network | Processing Authentication</title>
+
+    <link rel="preconnect" href="{AUTH_API_URL}">
+</svelte:head>
 
 <p>
     Processing the authentication request...

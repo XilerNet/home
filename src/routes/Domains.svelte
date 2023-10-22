@@ -3,6 +3,7 @@
     import api from "../utils/api";
     import type {Domain, OwnedDomain} from "../types/api";
     import Loader from "../lib/components/Loader.svelte";
+    import {AUTH_API_URL, DOMAINS_API_URL, PAYMENT_API_URL} from "../utils/constants";
 
     let loaded_bit = 0;
     const setLoaded = (i: number) => loaded_bit |= i;
@@ -21,6 +22,14 @@
         setLoaded(2);
     });
 </script>
+
+<svelte:head>
+    <title>Xiler Network | Your decentralised domains</title>
+
+    <link rel="preconnect" href="{DOMAINS_API_URL}">
+    <link rel="preconnect" href="{PAYMENT_API_URL}">
+    <link rel="preconnect" href="{AUTH_API_URL}">
+</svelte:head>
 
 
 <div id="domains">
@@ -41,6 +50,7 @@
                                 <a
                                         title="{domain.domain} inscription"
                                         target="_blank"
+                                        rel="noopener noreferrer"
                                         href="https://ordinals.com/inscription/{domains.find(o => o.domain === domain.domain)?.inscription}"
                                 >
                                     inscription
@@ -49,6 +59,7 @@
                                 <a
                                         title="{domain.domain} inscription"
                                         target="_blank"
+                                        rel="noopener noreferrer"
                                         href="https://ordinals.com/tx/{domain.reveal_tx}"
                                 >
                                     inscription
@@ -58,6 +69,7 @@
                             <a
                                     title="{domain.domain} payment"
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     href="/"
                                     class="processing"
                             >
