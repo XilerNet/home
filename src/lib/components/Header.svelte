@@ -33,7 +33,7 @@
             <nav>
                 <ul>
                     <li><a href="/" use:link>Home</a></li>
-                    <!--                    <li><a href="/docs" use:link>Documentation</a></li>-->
+                    <li><a href="https://github.com/XilerNet/specification" rel="noopener noreferrer" target="_blank">Specification</a></li>
                     <li><a href="https://dc.xiler.net" rel="noopener noreferrer" target="_blank">Support</a></li>
                 </ul>
             </nav>

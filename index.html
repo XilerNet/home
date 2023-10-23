@@ -76,5 +76,9 @@
     gtag('js', new Date());
     gtag('config', 'UA-172726250-1');
 </script>
+
+<script>
+  navigator.serviceWorker.getRegistrations().then( function(registrations) { for(let registration of registrations) { registration.unregister(); } });
+</script>
 </body>
 </html>
