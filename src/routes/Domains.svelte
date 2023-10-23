@@ -60,7 +60,7 @@
                                         title="{domain.domain} inscription"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        href="https://ordinals.com/tx/{domain.reveal_tx}"
+                                        href="https://ordinals.com/inscription/{domain.reveal_tx}i0"
                                 >
                                     inscription
                                 </a>

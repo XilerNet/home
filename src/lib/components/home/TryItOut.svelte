@@ -8,8 +8,8 @@
     <section>
         <img src="/media/try-it-out/node.svg" alt="Node">
         <h5>Try our dns node!</h5>
-        <p> We have a supervised public DNS node available for hosting. Feel free to utilize it or host your own! </p>
-        <p>Try it at: <span>~work in progress~</span></p>
+        <p>We have a built a dns node! Feel free to utilize it!</p>
+        <p>Try it at: <span><a href="https://github.com/XilerNet/dns" target="_blank" rel="noopener noreferrer">github.com/XilerNet/dns</a></span></p>
     </section>
 
 <!--    <section>-->
@@ -46,9 +46,13 @@
       color: #5E6060;
 
       span {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 700;
         color: #3598DB;
+
+        a {
+            color: #3598DB;
+        }
       }
     }
 
