@@ -56,7 +56,7 @@
             <div class="menu-bar">
                 <nav>
                     <ul>
-                        <li><a href="/me/domains" use:link>Domains</a></li>
+                        <li><a href="/me/domains" use:link>Your Domains</a></li>
                         <!--                        <li><a href="/me/wallets" use:link>Wallets</a></li>-->
                     </ul>
                     <ul>

@@ -1,15 +1,18 @@
 import type {
-    Domain, DomainOrderItem, DomainOrderResponse,
+    Domain,
+    DomainOrderItem,
+    DomainOrderResponse,
     DomainsResponse,
     ErrorResponse,
-    MeResponse, OwnedDomain, OwnedDomainsResponse, PaymentStatusResponse, PricingResponse,
+    GetPrivateKeyResponse,
+    MeResponse,
+    OwnedDomain,
+    OwnedDomainsResponse,
+    PaymentStatusResponse,
+    PricingResponse,
     RefreshTokenResponse,
 } from "../types/api";
-import {
-    AUTH_API_URL,
-    AUTH_TOKEN_LOCATION,
-    DOMAINS_API_URL, PAYMENT_API_URL,
-} from "./constants";
+import {AUTH_API_URL, AUTH_TOKEN_LOCATION, DOMAINS_API_URL, PAYMENT_API_URL,} from "./constants";
 import {writable} from "svelte/store";
 import {toast} from "@zerodevx/svelte-toast";
 
@@ -119,6 +122,17 @@ class Api {
             "GET",
             true,
         );
+    }
+
+    async getPrivateKey(domain: string): Promise<Blob> {
+        const res = await this.requestPay<GetPrivateKeyResponse>(
+            `/private-key/${domain}`,
+            "GET",
+            true,
+        );
+
+        const bytes = new Uint8Array(res.private_key.match(/.{1,2}/g)!.map(byte => parseInt(byte, 16)));
+        return new Blob([bytes], {type: "application/octet-stream"});
     }
 
     private async request<T>(

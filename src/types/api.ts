@@ -71,3 +71,7 @@ export interface PricingResponse {
     non_stackable_loyalty_discount_currency: string,
     final_price: number,
 }
+
+export interface GetPrivateKeyResponse {
+    private_key: string,
+}

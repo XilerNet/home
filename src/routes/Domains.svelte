@@ -11,6 +11,7 @@
 
     let domains: Domain[] = [];
     let ownedDomains: OwnedDomain[] = [];
+    let downloadingPrivateKeyFor = new Set<string>();
 
     api.getDomains().then((res) => {
         domains = res;
@@ -21,6 +22,19 @@
         ownedDomains = res;
         setLoaded(2);
     });
+
+    async function downloadPrivateKeyOf(domain: string) {
+        if (downloadingPrivateKeyFor.has(domain)) return;
+
+        downloadingPrivateKeyFor.add(domain);
+        const private_key_blob = await api.getPrivateKey(domain);
+        const url = URL.createObjectURL(private_key_blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${domain}.key`;
+        link.click();
+        downloadingPrivateKeyFor.delete(domain);
+    }
 </script>
 
 <svelte:head>
@@ -45,37 +59,50 @@
                     <li>
                         <p>{domain.domain}</p>
 
-                        {#if domain?.reveal_tx !== null}
-                            {#if domains.findIndex(o => o.domain === domain.domain) !== -1}
-                                <a
-                                        title="{domain.domain} inscription"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        href="https://ordinals.com/inscription/{domains.find(o => o.domain === domain.domain)?.inscription}"
-                                >
-                                    inscription
-                                </a>
+                        <div class="domain-contents">
+                            {#if domain?.reveal_tx !== null}
+                                {#if domains.findIndex(o => o.domain === domain.domain) !== -1}
+                                    <a
+                                            title="{domain.domain} inscription"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            href="https://ordinals.com/inscription/{domains.find(o => o.domain === domain.domain)?.inscription}"
+                                    >
+                                        inscription
+                                    </a>
+                                {:else}
+                                    <a
+                                            title="{domain.domain} inscription"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            href="https://ordinals.com/inscription/{domain.reveal_tx}i0"
+                                    >
+                                        inscription
+                                    </a>
+                                {/if}
                             {:else}
                                 <a
-                                        title="{domain.domain} inscription"
+                                        title="{domain.domain} payment"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        href="https://ordinals.com/inscription/{domain.reveal_tx}i0"
+                                        href="/"
+                                        class="processing"
                                 >
-                                    inscription
+                                    processing payment
                                 </a>
                             {/if}
-                        {:else}
-                            <a
-                                    title="{domain.domain} payment"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href="/"
-                                    class="processing"
+
+                            <button
+                                    disabled={downloadingPrivateKeyFor.has(domain.domain)}
+                                    on:click={() => downloadPrivateKeyOf(domain.domain)}
                             >
-                                processing payment
-                            </a>
-                        {/if}
+                                <img
+                                        src="/media/domains/key.svg"
+                                        alt="Download private key of {domain.domain}"
+                                        title="Download private key of {domain.domain}"
+                                />
+                            </button>
+                        </div>
                 {/each}
                 {#each domains.filter(d => !ownedDomains.find(o => o.domain === d.domain)) as domain}
                     <li class="external">
@@ -150,6 +177,13 @@
           color: #fff;
 
           padding: 0.5rem 0.75rem;
+        }
+
+        button,
+        a {
+          display: inline-block;
+
+          border: 0;
           border-radius: 0.25rem;
 
           text-decoration: none;
@@ -158,6 +192,31 @@
             pointer-events: none;
             opacity: 0.5;
           }
+        }
+
+        button {
+          cursor: pointer;
+          background-color: #E84C3D;
+          font-size: 1rem;
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          &:hover {
+            background-color: #C0392B;
+          }
+
+          img {
+            height: 1.4rem;
+            padding: 0.25rem 0.5rem;
+          }
+        }
+
+        .domain-contents {
+          display: flex;
+          gap: 0.5rem;
         }
       }
     }
