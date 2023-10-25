@@ -177,6 +177,11 @@
           color: #fff;
 
           padding: 0.5rem 0.75rem;
+          transition: background-color 0.2s ease-in-out;
+
+          &:hover {
+            background-color: darken(#3598DB, 10%);
+          }
         }
 
         button,
@@ -196,8 +201,9 @@
 
         button {
           cursor: pointer;
-          background-color: #E84C3D;
+          background-color: #35C57B;
           font-size: 1rem;
+          transition: background-color 0.2s ease-in-out;
 
           &:disabled {
             opacity: 0.5;
@@ -205,7 +211,7 @@
           }
 
           &:hover {
-            background-color: #C0392B;
+            background-color: #35B17B;
           }
 
           img {
